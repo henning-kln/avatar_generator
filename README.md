@@ -13,11 +13,12 @@ GET https://avatar.hk-labs.de/api/avatar
 The API supports the following query parameters:
 
 - `name`: The username of the user. This parameter is used to generate a unique profile picture for each user.
+- `size`: The Size of the image. Valid options are `small` (200x200px), `medium` (1000x1000px), and `large` (2000x2000px). The default size is `small`.
 
 Example usage:
 
 ```
-GET https://avatar.hk-labs.de/api/avatar?name=henning-kln
+GET https://avatar.hk-labs.de/api/avatar?name=henning-kln&size=large
 ```
 
 This will generate an avatar 
