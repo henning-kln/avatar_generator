@@ -7,7 +7,7 @@ const Sizes = {
     small: {
         width: 200,
         offset: 5,
-        facotr: 10
+        factor: 10
     },
     medium: {
         width: 1000,
@@ -61,7 +61,7 @@ export async function avatar(request: HttpRequest, context: InvocationContext): 
     //set the color of each pixel
     for (let x = offset; x < png.height; x+=offset*2) {
         for (let y = offset; y < png.width; y+=offset*2) {
-            const color = selectRandomColor(y*x*factor);
+            const color = selectRandomColor((y*factor)*(x*factor));
             setPixelColor(png.data, x, y, color, offset);
         }
     }
