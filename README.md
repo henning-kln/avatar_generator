@@ -1,13 +1,13 @@
 # Avatar Generator
 
-This repository contains the code for an avatar generator API. The API can be accessed at [avatar.hk-labs.de](https://avatar.hk-labs.de).
+This repository contains the code for an avatar generator API. The API can be accessed at [avatar.hk-labs.de](https://avatar.hk-labs.de/api/avatar).
 
 ## Usage
 
 To generate an avatar, make a GET request to the following endpoint:
 
 ```
-GET /api/avatar
+GET https://avatar.hk-labs.de/api/avatar
 ```
 
 The API supports the following query parameters:
@@ -17,7 +17,7 @@ The API supports the following query parameters:
 Example usage:
 
 ```
-GET /api/avatar?name=henning-kln
+GET https://avatar.hk-labs.de/api/avatar?name=henning-kln
 ```
 
 This will generate an avatar 
