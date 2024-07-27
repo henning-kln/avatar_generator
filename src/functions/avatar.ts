@@ -2,6 +2,8 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/fu
 import * as crypto from 'crypto';
 import {setPixelColor, Colors, textToNumber} from '../utils/image';
 import { PNG } from 'pngjs';
+import { setImage, getImage } from "../utils/redis";
+import type { Sizes } from '../utils/types';
 
 const Sizes = {
     small: {
@@ -25,19 +27,29 @@ export async function avatar(request: HttpRequest, context: InvocationContext): 
 
     // get the name or a random username
     const input = request.query.get('name') || crypto.randomBytes(20).toString('hex')
+    // make it lowercase
+    const name = input.toLowerCase()
 
-    const size = request.query.get('size') || "small"
+    // get the size
+    const size = (request.query.get('size') || "small") as Sizes
     if(!Sizes[size]) return { status: 400, body: "Invalid Size. Please select between: `small`, `medium` & `large`." }
+
+    // check if the image is already
+    const i = await getImage(name, size)
+    if(i){
+        console.log(`username:(${name})size:(${size})`,i.length)
+
+        return { body: i, headers: { 'Content-Type': 'image/png', 'Content-Length': i.length.toString() } };
+    } 
+
+
+    
 
     // get the size
     const width = Sizes[size].width
     const offset = Sizes[size].offset
     const factor = Sizes[size].factor
 
-
-
-    // make it lowercase
-    const name = input.toLowerCase()
 
     // hash the name
     const hash = crypto.createHash("sha512").update(name).digest("hex");
@@ -68,6 +80,10 @@ export async function avatar(request: HttpRequest, context: InvocationContext): 
 
     // convert picture into buffer
     const buffer = PNG.sync.write(png)
+
+    // save image to redis
+    await setImage(name, size, buffer);
+
 
     // return buffer as picture
     return { body: buffer, headers: { 'Content-Type': 'image/png', 'Content-Length': buffer.length.toString() } };

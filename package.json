@@ -12,11 +12,13 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "redis": "^4.6.15"
   },
   "devDependencies": {
     "@types/node": "^20.x",
     "@types/pngjs": "^6.0.5",
+    "@types/redis": "^4.0.11",
     "rimraf": "^5.0.0",
     "typescript": "^4.0.0"
   },
